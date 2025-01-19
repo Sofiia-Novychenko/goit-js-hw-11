@@ -23,15 +23,11 @@ const galleryModal = new SimpleLightbox('.js-gallery a', {
 const OnSearchFormSubmit = event => {
   event.preventDefault();
 
-  loader.style.display = 'block';
-
-  galleryEl.innerHTML = '';
-
   let userInputValue = event.currentTarget.elements.user_query.value.trim();
 
-  if (userInputValue === '') {
-    loader.style.display = 'none';
+  galleryEl.innerHTML = ' ';
 
+  if (userInputValue === '') {
     iziToast.warning({
       title: 'Caution',
       message: 'You forgot important data',
@@ -40,6 +36,8 @@ const OnSearchFormSubmit = event => {
 
     return;
   }
+
+  loader.style.display = 'inline-block';
 
   fetchPhotosByQuery(userInputValue)
     .then(data => {
@@ -65,6 +63,7 @@ const OnSearchFormSubmit = event => {
         createGalleryCardTemplate(data.hits)
       );
       galleryModal.refresh();
+      // loader.style.display = 'none';
     })
     .catch(err => {
       console.log(err.message);
